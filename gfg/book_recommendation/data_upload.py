@@ -2,6 +2,7 @@ import pickle
 import streamlit as st
 import pandas as pd
 import os
+from sklearn.neighbors import NearestNeighbors
 
 # Ensure the artifacts3 folder exists
 os.makedirs("artifacts3", exist_ok=True)
@@ -24,6 +25,11 @@ if not books_df.empty:
     # Save extracted data as Pickle files for use in `app.py`
     pickle.dump(books_names_list, open("artifacts3/books_names_list.pkl", "wb"))
     pickle.dump(req_updated_books, open("artifacts3/req_updated_books.pkl", "wb"))
+
+    # Dummy model (for demonstration purposes)
+    model = NearestNeighbors()
+    model.fit(req_updated_books.index.values.reshape(-1, 1))
+    pickle.dump(model, open("artifacts3/model.pkl", "wb"))
 
     st.success("✅ Data processed and saved successfully!")
 else:
